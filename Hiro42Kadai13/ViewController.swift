@@ -24,7 +24,7 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
                 as? FruitCell else { fatalError() }
         cell.setName(name: fruitsInStock[indexPath.row].0)
         if fruitsInStock[indexPath.row].1 == true {
-            cell.setIscheckImage(image: UIImage(named: "checkMark"))
+            cell.setCheckImage(image: UIImage(named: "checkMark"))
         }
         return cell
     }
@@ -38,7 +38,7 @@ class FruitCell: UITableViewCell {
     func setName(name: String) {
         fruitsNameLabel.text = name
     }
-    func setIscheckImage(image: UIImage?) {
+    func setCheckImage(image: UIImage?) {
         checkImgaeView.image = image
     }
 }

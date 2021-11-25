@@ -8,7 +8,7 @@
 import UIKit
 
 class ViewController: UIViewController {
-    private var fruitsInStock = [
+    private var fruitsInStock: [(fruitsName: String, check: Bool)] = [
         ("りんご", false),
         ("みかん", true),
         ("バナナ", false),
@@ -22,8 +22,8 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
                 as? FruitCell else { fatalError() }
-        cell.setName(name: fruitsInStock[indexPath.row].0)
-        if fruitsInStock[indexPath.row].1 == true {
+        cell.setName(name: fruitsInStock[indexPath.row].fruitsName)
+        if fruitsInStock[indexPath.row].check == true {
             cell.setCheckImage(image: UIImage(named: "checkMark"))
         }
         return cell
@@ -35,6 +35,11 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
 class FruitCell: UITableViewCell {
     @IBOutlet private weak var checkImgaeView: UIImageView!
     @IBOutlet private weak var fruitsNameLabel: UILabel!
+
+    override func prepareForReuse() {
+        checkImgaeView.image = nil
+    }
+
     func setName(name: String) {
         fruitsNameLabel.text = name
     }

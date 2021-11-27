@@ -7,12 +7,17 @@
 
 import UIKit
 
+struct CheckItem {
+    let name: String
+    let isChecked: Bool
+}
+
 class ViewController: UIViewController {
-    private var fruitsInStock: [(fruitsName: String, check: Bool)] = [
-        ("りんご", false),
-        ("みかん", true),
-        ("バナナ", false),
-        ("パイナップル", true)
+    private var fruitsInStock: [CheckItem] = [
+        .init(name: "りんご", isChecked: false),
+        .init(name: "みかん", isChecked: true),
+        .init(name: "バナナ", isChecked: false),
+        .init(name: "パイナップル", isChecked: true),
     ]
 }
 extension ViewController: UITableViewDataSource, UITableViewDelegate {
@@ -22,10 +27,9 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
                 as? FruitCell else { fatalError() }
-        cell.setName(name: fruitsInStock[indexPath.row].fruitsName)
-        if fruitsInStock[indexPath.row].check == true {
-            cell.setCheckImage(image: UIImage(named: "checkMark"))
-        }
+        
+        cell.configure(item: fruitsInStock[indexPath.row])
+        
         return cell
     }
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
@@ -36,14 +40,8 @@ class FruitCell: UITableViewCell {
     @IBOutlet private weak var checkImgaeView: UIImageView!
     @IBOutlet private weak var fruitsNameLabel: UILabel!
 
-    override func prepareForReuse() {
-        checkImgaeView.image = nil
-    }
-
-    func setName(name: String) {
-        fruitsNameLabel.text = name
-    }
-    func setCheckImage(image: UIImage?) {
-        checkImgaeView.image = image
+    func configure(item: CheckItem) {
+        fruitsNameLabel.text = item.name
+        checkImgaeView.image = item.isChecked ? UIImage(named: "checkMark") : nil
     }
 }
